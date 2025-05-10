@@ -1,4 +1,6 @@
 require('dotenv').config();
+
+const cors = require("cors");  // Importar el paquete cors
 const express = require('express');
 const connectDB = require('./config/database');
 const setupSwagger = require("./config/swaggerConfig");
@@ -18,6 +20,14 @@ const usuarioRoutes = require('./routes/usuario.routes');
 const app = express();
 
 connectDB();
+
+// Middleware para permitir CORS
+app.use(cors(
+  {
+    origin:"http://127.0.0.1:5500",
+    credentials:true
+  }
+)); // Habilita CORS para todas las rutas
 
 // Para aceptar y procesar datos en formato JSON
 app.use(express.json());
