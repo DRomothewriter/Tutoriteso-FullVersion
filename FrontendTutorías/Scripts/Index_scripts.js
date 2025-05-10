@@ -46,6 +46,39 @@ try {
             console.error("Error al obtener usuario:", error);
         }
 
+try {
+  const AsesoriasResponse = await fetch(`${API_URL}/asesorias`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include"
+  });
+
+  if (!AsesoriasResponse.ok) {
+    throw new Error("Error al obtener asesorías");
+  }
+
+        const asesorias = await AsesoriasResponse.json();  // 👈 Aquí obtienes los datos
+
+        // Recorres y muestras las asesorías
+        asesorias.forEach(asesoria => {
+            console.log(`Materia: ${asesoria.materia}`);
+            console.log(`Asesor: ${asesoria.asesor.name}`);
+
+            asesoria.sesiones.forEach(sesion => {
+            console.log(`  - Fecha: ${new Date(sesion.fecha).toLocaleString()}`);
+            console.log(`    Activa: ${sesion.activa}`);
+            sesion.posiblesAsesorados.forEach(asesorado => {
+                console.log(`    Asesorado: ${asesorado.name} (${asesorado.email})`);
+            });
+            });
+        });
+
+        } catch (error) {
+        console.error("Error al obtener asesorías:", error);
+        }
+
         }
     } catch (error) {
         console.error('Error al verificar el token:', error);
