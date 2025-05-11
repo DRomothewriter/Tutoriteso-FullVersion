@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // Define the schema
 const userSchema = new mongoose.Schema({
@@ -20,10 +21,7 @@ const userSchema = new mongoose.Schema({
     enum: ['admin', 'asesor', 'asesorado'], 
     default: 'asesorado'
   },
-  materias: {
-    type: [String], 
-    default: undefined 
-  }
+  materias:[{type: Schema.Types.ObjectId, ref: 'Materia'}] 
 });
 
 const User = mongoose.model('User', userSchema);

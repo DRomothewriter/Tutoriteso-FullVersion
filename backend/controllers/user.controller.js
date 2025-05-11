@@ -105,11 +105,11 @@ const getUserById = async (req, res) => {
     }
 
     // Si todo está bien, responder con los datos del usuario
-   // console.log("Acceso permitido: El usuario tiene permiso para ver este perfil.");
+    //console.log("Acceso permitido: El usuario tiene permiso para ver este perfil.");
     res.json(user);
 
   } catch (error) {
-    console.error("Error al obtener el usuario:", error.message);
+    console.error("Error al obtener el usuariop:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
