@@ -7,7 +7,8 @@ const AsesoriaSchema = new Schema({
     required: true,
   },
   asesor: {
-    type: Schema.Types.ObjectId,ref: 'Usuario', // Modelo de usuarios, en donde se incluye el rol de "asesor"
+    type: Schema.Types.ObjectId,
+    ref: 'User', // Modelo de usuarios, en donde se incluye el rol de "asesor"
     required: true,
   },
   sesiones: [{
@@ -16,7 +17,8 @@ const AsesoriaSchema = new Schema({
       required: true,  // Fecha y hora específica para la sesión
     },
     posiblesAsesorados: [{
-      type: Schema.Types.ObjectId, ref: 'Usuario',
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     }],
     activa: {
