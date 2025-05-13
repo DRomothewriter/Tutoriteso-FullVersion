@@ -3,5 +3,5 @@ services:
     name: user-api-backend
     env: node
     plan: free
-    buildCommand: "cd Backend && npm install"
-    startCommand: "cd Backend && node index.js"
+    buildCommand: "cd ckend && npm install"
+    startCommand: "cd ckend && node index.js"
