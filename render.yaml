@@ -5,12 +5,3 @@ vservices:
     plan: free
     buildCommand: "cd Backend && npm install"
     startCommand: "cd Backend && node index.js"
-    envVars:
-      - key: MONGO_URI
-        value: "mongodb+srv://lealvictoralex:3rURhZYZXEvzUrap@cluster0.pvuzpbj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-      - key: PORT
-        value: "5500"
-      - key: JWT_SECRET
-        value: "SecretoJWT"
-      - key: NODE_ENV
-        value: "testing"
