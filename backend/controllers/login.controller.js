@@ -10,7 +10,7 @@ const login = async (req, res) => {
     // Buscar al usuario por email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Correo electronico o contrasenia incorrectos' });
+      return res.status(404).json({ message: 'Correo electronico o contrasenia incorrectos' });
     }
 
     // Verificar la contraseña
@@ -29,7 +29,7 @@ const login = async (req, res) => {
       // Enviar el token como una cookie httpOnly
 res.cookie('token', token, {
     httpOnly: true,  // Bloquear acceso desde JavaScript para mayor seguridad
-    secure: true,   // Necesario en HTTP, en producción debe ser `true`
+    secure: true,   // Necesario en HTTP y HTTPS por seguridad de navegadores,
     sameSite: 'None', // 'None' solo si tienes frontend/backend en diferentes dominios con HTTPS
     maxAge: 3600000, // 1 hora
     path: '/'        // Disponible en todo el dominio

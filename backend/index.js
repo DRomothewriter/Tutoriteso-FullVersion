@@ -24,22 +24,16 @@ setupSwagger(app);
 
 // Rutas de los modelos
 const userRoutes = require('./routes/user.routes');
-const productRoutes = require('./routes/product.routes');
-const orderRoutes = require('./routes/order.routes');
 const asesoriaRoutes = require('./routes/asesoria.routes');
 const materiaRoutes = require('./routes/materia.routes');
 const postForoRoutes = require('./routes/postForo.routes');
 const comentarioRoutes = require('./routes/comentario.routes');
-const usuarioRoutes = require('./routes/usuario.routes');
 
 app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
 app.use('/api/asesorias', asesoriaRoutes);
 app.use('/api/materias', materiaRoutes);
 app.use('/api/posts', postForoRoutes);
 app.use('/api/comentarios', comentarioRoutes);
-app.use('/api/usuario', usuarioRoutes);
 
 // Nueva ruta para verificar la autenticación del usuario mediante cookies
 app.get('/api/verify-token', (req, res) => {

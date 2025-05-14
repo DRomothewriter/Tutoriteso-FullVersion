@@ -25,21 +25,6 @@
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password" placeholder="********" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="user-type" class="form-label">Tipo de Usuario</label>
-                            <select class="form-select" id="user-type" required>
-                                <option value="" selected disabled>Selecciona una opción</option>
-                                <option value="asesorado">Asesorado</option>
-                                <option value="asesor">Asesor</option>
-                            </select>
-                        </div>
-                        <div class="d-none mb-3" id="materias-container">
-                            <label class="form-label">Materias que puedes asesorar</label>
-                            <div class="p-1 ms-1 overflow-auto" style="max-height: 15vh;" id="materias-list">
-                                <!-- Las materias serán cargadas dinámicamente aquí -->
-                            </div>
-                            <small class="text-muted">Selecciona una o más materias</small>
-                        </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success">Crear cuenta</button>
                         </div>

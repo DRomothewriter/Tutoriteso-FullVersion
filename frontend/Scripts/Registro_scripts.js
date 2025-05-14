@@ -5,62 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const materiasContainer = document.getElementById('materias-container');
     const materiasList = document.getElementById('materias-list');
 
-    // Simulación de obtener materias de una base de datos
-    const materias = Array.from({ length: 100 }, (_, i) => ({
-        id: `materia${i+1}`,
-        name: `Materia ${i+1}`
-    }));
-
-    let materiasPorCargar = 10; // Número de materias a cargar por vez
-    let materiasCargadas = 0; // Contador de materias cargadas
-
-    // Función para cargar materias en trozos
-    function loadMoreMaterias() {
-        const fragment = document.createDocumentFragment();
-        const end = materiasCargadas + materiasPorCargar;
-        const currentMaterias = materias.slice(materiasCargadas, end);
-
-        currentMaterias.forEach(materia => {
-            const div = document.createElement('div');
-            div.classList.add('form-check');
-            div.innerHTML = `
-                <input class="form-check-input" type="checkbox" value="${materia.id}" id="${materia.id}">
-                <label class="form-check-label" for="${materia.id}">${materia.name}</label>
-            `;
-            fragment.appendChild(div);
-        });
-
-        materiasList.appendChild(fragment);
-        materiasCargadas += materiasPorCargar;
-    }
-
-    // Mostrar materias si el usuario es "asesor"
-    userTypeSelect.addEventListener('change', function () {
-        if (this.value === 'asesor') {
-            materiasContainer.classList.remove('d-none');
-            loadMoreMaterias();
-        } else {
-            materiasContainer.classList.add('d-none');
-        }
-    });
-
-    // Verificar el tipo de usuario al cargar la página
-    window.onload = function () {
-        if (userTypeSelect.value === 'asesor') {
-            materiasContainer.classList.remove('d-none');
-            loadMoreMaterias();
-        } else {
-            materiasContainer.classList.add('d-none');
-        }
-    };
-
-    // Detectar el scroll para cargar más materias
-    materiasList.addEventListener('scroll', function () {
-        if (this.scrollTop + this.clientHeight >= this.scrollHeight) {
-            loadMoreMaterias();
-        }
-    });
-
     // Enviar datos a la API al crear cuenta
     form.addEventListener('submit', async function (event) {
         event.preventDefault(); // Evitar recarga de página
@@ -69,22 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const role = userTypeSelect.value;
+        const role = "user"
         
-        // Obtener materias seleccionadas si el usuario es "asesor"
-        let materiasSeleccionadas = [];
-        if (role === 'asesor') {
-            document.querySelectorAll('#materias-list input:checked').forEach(input => {
-                materiasSeleccionadas.push(input.value);
-            });
-        }
         // Construir objeto con los datos
         const userData = {
             name,
             email,
-            password,
-            role,
-            materias: materiasSeleccionadas.length > 0 ? materiasSeleccionadas : undefined
+            password
         };
 
         try {

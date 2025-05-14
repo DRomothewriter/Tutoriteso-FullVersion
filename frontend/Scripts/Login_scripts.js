@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json(); // Convertir la respuesta a JSON
 
             if (response.ok) {
-                alert('Log in exitoso');
-                // Aquí puedes redirigir a la página de inicio o a otro lugar
+                // Redirigir a la página de inicio o a otro lugar
                  window.location.href = '../index.html'; // Redirigir al home
             } else {
                 // Mostrar el mensaje de error del backend
