@@ -83,21 +83,38 @@ const getAllUsers = async (req, res) => {
 };
 
 // Obtener un usuario por ID (admin o dueño)
+
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password'); // No incluir la contraseña
-    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+   // console.log("ID del usuario autenticado (req.user.userId):", req.user.userId);  
+    //console.log("ID del usuario solicitado desde la URL (req.params.id):", req.params.id);
 
-    // Verificar si el usuario es admin o dueño
-    if (req.user.role !== 'admin' && req.user.userId !== req.params.id) {
+    // Convertir ambos ID a string
+    const userIdFromParams = req.params.id.toString();
+    const userIdFromAuth = req.user.userId.toString();
+
+    const user = await User.findById(req.params.id).select('-password'); // No incluir la contraseña
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Verificar si el usuario es admin o dueño del perfil solicitado
+    if (req.user.role !== 'admin' && userIdFromParams !== userIdFromAuth) {
+      //console.log("Acceso denegado: El usuario no es admin y no tiene permiso para ver este perfil.");
       return res.status(403).json({ message: 'No tienes permiso para ver este usuario' });
     }
 
+    // Si todo está bien, responder con los datos del usuario
+    //console.log("Acceso permitido: El usuario tiene permiso para ver este perfil.");
     res.json(user);
+
   } catch (error) {
+    console.error("Error al obtener el usuariop:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
+
 
 // Actualizar un usuario por ID (admin)
 const updateUser = async (req, res) => {

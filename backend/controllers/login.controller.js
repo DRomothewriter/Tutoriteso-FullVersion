@@ -26,13 +26,15 @@ const login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Enviar el token como una cookie httpOnly
-    res.cookie('token', token, {
-      httpOnly: false,      // Solo accesible desde el servidor, no en JS del frontend
-      secure: process.env.NODE_ENV === 'production', // Asegura la cookie solo en HTTPS
-      maxAge: 3600000,     // 1 hora en milisegundos
-      sameSite: 'Strict',  // Previene CSRF
-    });
+      // Enviar el token como una cookie httpOnly
+res.cookie('token', token, {
+    httpOnly: true,  // Bloquear acceso desde JavaScript para mayor seguridad
+    secure: true,   // Necesario en HTTP, en producción debe ser `true`
+    sameSite: 'None', // 'None' solo si tienes frontend/backend en diferentes dominios con HTTPS
+    maxAge: 3600000, // 1 hora
+    path: '/'        // Disponible en todo el dominio
+});
+
 
     // Enviar respuesta
     res.json({ message: 'Log in exitoso' });
