@@ -1,37 +1,24 @@
 require('dotenv').config();
 
-const cors = require("cors");
+const cors = require("cors");  // Importar el paquete cors
 const express = require('express');
 const connectDB = require('./config/database');
 const setupSwagger = require("./config/swaggerConfig");
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
-const path = require("path");
-=======
->>>>>>> origin/Victor
 
 const app = express();
 connectDB();
 
-<<<<<<< HEAD
-app.use(cors({
-    origin: "http://127.0.0.1:5500",
-    credentials: true
-}));
-
-app.use(cookieParser());
-=======
 // Middleware para permitir CORS
 app.use(cors({
-    origin: "http://127.0.0.1:5500",
+    origin: "https://tutoriteso-fullversion-1.onrender.com",
     credentials: true
 })); // Habilita CORS para todas las rutas
 
 app.use(cookieParser());
 
 // Para aceptar y procesar datos en formato JSON
->>>>>>> origin/Victor
 app.use(express.json());
 setupSwagger(app);
 
@@ -54,11 +41,7 @@ app.use('/api/posts', postForoRoutes);
 app.use('/api/comentarios', comentarioRoutes);
 app.use('/api/usuario', usuarioRoutes);
 
-<<<<<<< HEAD
-// Verificación de token
-=======
 // Nueva ruta para verificar la autenticación del usuario mediante cookies
->>>>>>> origin/Victor
 app.get('/api/verify-token', (req, res) => {
     const token = req.cookies.token;
 
@@ -67,10 +50,7 @@ app.get('/api/verify-token', (req, res) => {
     }
 
     try {
-<<<<<<< HEAD
-=======
         // Verifica el token con la clave secreta
->>>>>>> origin/Victor
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         res.json({ message: "Token válido", user: decoded });
     } catch (error) {
@@ -78,18 +58,6 @@ app.get('/api/verify-token', (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.get("*", (req, res) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(__dirname, "../FrontendTutorias/Views/index.html"));
-  } else {
-    res.status(404).json({ message: "Ruta no encontrada" });
-  }
-});
-
-
-=======
->>>>>>> origin/Victor
 // Iniciar el servidor
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

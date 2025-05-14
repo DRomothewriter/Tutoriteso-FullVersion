@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    const API_URL = "http://localhost:5500/api"; 
     const userID = document.getElementById('UserIdentifier');
 
     let asesorias = [];
@@ -9,12 +8,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     const paginacion = document.getElementById("paginacion");
 
     try {
-        const res = await fetch("http://localhost:5500/api/verify-token", {
+        const res = await fetch(`${API_URL}/verify-token`, {
             credentials: 'include'
         });
 
         if (!res.ok) {
-            window.location.href = 'Views/LogIn.html';
+            window.location.href = 'Views/login.html';
         } else {
             const data = await res.json();
             const userId = data.user.userId;
@@ -49,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 );
 
                 renderPage(currentPage);
+                console.log(asesorias);
             } catch (error) {
                 console.error("Error al obtener asesorías:", error);
             }
@@ -75,15 +75,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const cardHTML = `
                     <div class="col">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">${asesoria.materia}</h5>
-                                <p class="card-text">
-                                    <strong>Asesor:</strong> ${asesoria.asesor.name}<br>
-                                    <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
-                                    <strong>Activa:</strong> ${sesionMasCercana.activa ? 'Sí' : 'No'}
-                                </p>
-                                <a href="#" class="btn btn-primary">Ver más</a>
-                            </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${asesoria.materia?.name || 'Materia desconocida'}</h5>
+                            <p class="card-text">
+                            <strong>Asesor:</strong> ${asesoria.asesor?.name}<br>
+                            <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
+                            <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
+                            
+                            </p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
                         </div>
                     </div>`;
                 cardsWrapper.insertAdjacentHTML("beforeend", cardHTML);

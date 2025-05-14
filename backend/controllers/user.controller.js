@@ -61,6 +61,7 @@ const loginUser = async (req, res) => {
 
     // Generar JWT
     const jwtSecret = process.env.JWT_SECRET;
+    console.log("Secreto JWT:", jwtSecret); // Para depuración
     const token = jwt.sign({ userId: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
@@ -105,11 +106,11 @@ const getUserById = async (req, res) => {
     }
 
     // Si todo está bien, responder con los datos del usuario
-    //console.log("Acceso permitido: El usuario tiene permiso para ver este perfil.");
+   // console.log("Acceso permitido: El usuario tiene permiso para ver este perfil.");
     res.json(user);
 
   } catch (error) {
-    console.error("Error al obtener el usuariop:", error.message);
+    console.error("Error al obtener el usuario:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

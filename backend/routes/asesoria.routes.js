@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const asesoriaController = require('../controllers/asesoria.controller');
-const authMiddleware = require('../middleware/auth');  // Asumimos que existe un middleware de autenticación
-
+const { authMiddleware, adminMiddleware } = require('../middleware/UserAuth');
 // Rutas de Asesorías
 router.post('/', authMiddleware, asesoriaController.createAsesoria);
+router.get('/mis-asesorias', authMiddleware, asesoriaController.getAsesoriasByAsesor);
 router.get('/', asesoriaController.getAsesorias);
 router.get('/:id', asesoriaController.getAsesoriaById);
 router.put('/:id', authMiddleware, asesoriaController.updateAsesoria);

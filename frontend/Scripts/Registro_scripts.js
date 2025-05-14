@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Definir la URL de la API como una constante
-    const API_URL = "http://localhost:5500/api/users"; 
-
     const form = document.querySelector('form');
     const userTypeSelect = document.getElementById('user-type');
     const materiasContainer = document.getElementById('materias-container');
@@ -92,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Enviar solicitud POST a la API
-            const response = await fetch(API_URL, {
+            const response = await fetch(`${API_URL}/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"                },
