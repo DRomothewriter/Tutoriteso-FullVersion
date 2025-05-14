@@ -55,12 +55,14 @@ app.get('/api/verify-token', (req, res) => {
     }
 });
 
-// Servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, "../FrontendTutorias")));
-
 app.get("*", (req, res) => {
+  if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(__dirname, "../FrontendTutorias/Views/index.html"));
+  } else {
+    res.status(404).json({ message: "Ruta no encontrada" });
+  }
 });
+
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 4000;
