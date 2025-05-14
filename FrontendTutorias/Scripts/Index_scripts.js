@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', async function () {
     const API_URL = "http://localhost:5500/api"; 
     const userID = document.getElementById('UserIdentifier');
