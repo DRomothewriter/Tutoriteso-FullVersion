@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let asesorias = [];
     let currentPage = 1;
-    const cardsPerPage = 1;
+    const cardsPerPage = 9;
     const cardsWrapper = document.getElementById("cardsWrapper");
     const paginacion = document.getElementById("paginacion");
 
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 );
 
                 renderPage(currentPage);
+                console.log(asesorias);
             } catch (error) {
                 console.error("Error al obtener asesorías:", error);
             }
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             <strong>Asesor:</strong> ${asesoria.asesor?.name}<br>
                             <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
                             <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
-                            <strong>Activa:</strong> ${sesionMasCercana.activa ? 'Sí' : 'No'}
+                            
                             </p>
                             <a href="#" class="btn btn-primary">Ver más</a>
                         </div>
