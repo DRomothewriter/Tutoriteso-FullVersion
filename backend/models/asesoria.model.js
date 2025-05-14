@@ -15,7 +15,7 @@ const AsesoriaSchema = new Schema({
     type: String,
     enum: ['Google Meet', 'Zoom', 'Microsoft Teams', 'WhatsApp', "Discord", 'Otro'],
     required: true,
-  },
+  },  
   plataformaPersonalizada: {
     type: String,
     required: false,  // Solo si la plataforma es "Otro"
