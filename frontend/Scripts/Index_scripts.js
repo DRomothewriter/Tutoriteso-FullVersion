@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else {
             const data = await res.json();
             const userId = data.user.userId;
-
             // Obtener datos del usuario
             try {
                 const response = await fetch(`${API_URL}/users/${userId}`, {
@@ -27,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 });
 
                 const userData = await response.json();
+                console.log("userData: ", userData);
                 userID.firstChild.textContent = userData.name + '\t';
             } catch (error) {
                 console.error("Error al obtener usuario:", error);
