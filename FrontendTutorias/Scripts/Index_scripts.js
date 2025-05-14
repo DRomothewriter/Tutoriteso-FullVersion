@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     } catch (error) {
         console.error('Error al verificar el token:', error);
-        window.location.href = 'LogIn.html';
+        window.location.href = 'Views/LogIn.html';
     }
 
     function renderPage(page) {
