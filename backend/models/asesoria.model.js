@@ -33,7 +33,7 @@ const AsesoriaSchema = new Schema({
       required: true,  // Fecha y hora específica para la sesión
     },
     posiblesAsesorados: [{
-      type: Schema.Types.ObjectId, ref: 'Usuario',
+      type: Schema.Types.ObjectId, ref: 'User',
       required: false
     }],
     activa: {
