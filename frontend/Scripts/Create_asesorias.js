@@ -1,6 +1,5 @@
 
 document.getElementById('formAsesoria').addEventListener('submit', async function (e) {
-  e.preventDefault(); // Evita que se recargue la página
 
   // Captura los valores del formulario
   const materia = document.getElementById('materia').value;
