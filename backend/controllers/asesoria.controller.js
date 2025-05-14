@@ -48,23 +48,45 @@ exports.createAsesoria = async (req, res) => {
 // Obtener todas las asesorías
 exports.getAsesorias = async (req, res) => {
   try {
-    const asesorias = await Asesoria.find().populate('asesor', 'name').populate('sesiones.posiblesAsesorados');
+    const asesorias = await Asesoria.find()
+      .populate('asesor', 'name')
+      .populate('sesiones.posiblesAsesorados')
+      .populate('materia', 'name'); // <- corregido aquí
+
     res.status(200).json(asesorias);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+// Obtener asesorías del asesor autenticado
+exports.getAsesoriasByAsesor = async (req, res) => {
+  try {
+    const asesorId = req.user.userId; // <- lo tomamos del token decodificado
+
+    const asesorias = await Asesoria.find({ asesor: asesorId })
+      .populate('materia', 'name')
+      .populate('asesor', 'name')
+      .populate('sesiones.posiblesAsesorados');
+
+    res.status(200).json(asesorias);
+  } catch (err) {
+    console.error("Error al obtener asesorías del asesor:", err);
+    res.status(500).json({ message: 'Error al obtener asesorías del asesor' });
+  }
+};
+
 // Obtener una asesoría por su ID
 exports.getAsesoriaById = async (req, res) => {
   try {
-    const asesoria = await Asesoria.findById(req.params.id).populate('asesor', 'name').populate('sesiones.posiblesAsesorados');
+    const asesoria = await Asesoria.findById(req.params.id).populate('asesor', 'name').populate('sesiones.posiblesAsesorados').populate('materia', 'name');
     if (!asesoria) return res.status(404).json({ message: 'Asesoría no encontrada' });
     res.status(200).json(asesoria);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // Actualizar una asesoría
 exports.updateAsesoria = async (req, res) => {
