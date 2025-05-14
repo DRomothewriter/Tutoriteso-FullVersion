@@ -57,11 +57,11 @@ document.getElementById('formAsesoria').addEventListener('submit', async functio
 // Cargar materias dinámicamente
 async function cargarMaterias() {
   try {
-            const response = await fetch(`${API_URL}/asesorias`, {
+            const response = await fetch(`${API_URL}/materias`, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
+        'Content-Type': 'application/json'
+      },
+      credentials: "include"
     });
 
     const materias = await response.json();
