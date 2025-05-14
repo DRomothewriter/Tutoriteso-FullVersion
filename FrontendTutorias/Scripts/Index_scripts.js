@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
 
         if (!res.ok) {
-            window.location.href = 'login.html';
+            window.location.href = 'Views/LogIn.html';
         } else {
             const data = await res.json();
             const userId = data.user.userId;
