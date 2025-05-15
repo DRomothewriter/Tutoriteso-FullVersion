@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         card.innerHTML = `
         <div class="card-body">
             <h5 class="card-title">${asesoria.materia.name|| 'Asesoría'}</h5>
-            <p class="card-text">${sesionMasCercana || 'descripcion o fecha'}</p>
+            <p class="card-text">${sesionMasCercana.fecha || 'descripcion o fecha'}</p>
             <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}">Eliminar</button>
       
         </div>
