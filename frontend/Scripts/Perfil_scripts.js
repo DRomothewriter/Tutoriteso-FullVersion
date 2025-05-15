@@ -25,9 +25,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     userID.firstChild.textContent = user.name + '\t';
     // Actualiza el DOM con los datos del usuario
-    document.querySelector('.user-img').src = user.profileImage || 'imgProyectos/imageprofile.jpg';
     document.querySelector('.card-title').textContent = user.name || 'Nombre de Usuario';
-    document.querySelector('.card-text').textContent = user.bio || 'Esta es una breve biografía del usuario. Puedes hablar un poco sobre tus intereses o cualquier otra información.';
+    //document.querySelector('.card-text').textContent = user.bio || 'Esta es una breve biografía del usuario. Puedes hablar un poco sobre tus intereses o cualquier otra información.';
 
 
 // Obtiene las asesorías donde el usuario es asesor
@@ -45,12 +44,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     } else {
     const fragment = document.createDocumentFragment();
     asesorias.forEach(asesoria => {
+        const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
+        let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
+        new Date(prev.fecha) < new Date(current.fecha) ? prev : current
+      );
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
         <div class="card-body">
             <h5 class="card-title">${asesoria.materia.name|| 'Asesoría'}</h5>
-            <p class="card-text">${asesoria.descripcion || 'descripcion o fecha'}</p>
+            <p class="card-text">${sesionMasCercana || 'descripcion o fecha'}</p>
             <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}">Eliminar</button>
       
         </div>

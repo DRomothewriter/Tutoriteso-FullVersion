@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
                     <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}
                 </p>
-                <a href="#" class="btn btn-sm btn-primary">Ver más</a>
+                <a href="#" class="btn btn-sm btn-primary">Inscribirse</a>
                 </div>
             </div>
           </div>
