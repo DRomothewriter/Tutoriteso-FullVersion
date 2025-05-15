@@ -7,9 +7,10 @@ const options = {
     info: {
       title: "TutorITESO API",
       version: "1.0.0",
+      description: "Documentación de la API para TutorITESO"
     },
   },
-  apis: ["routes"], // Ajusta a tu estructura de carpetas
+  apis: ["./routes/*.js"], // ✅ Asegúrate que esta ruta apunta a tus archivos con anotaciones Swagger
 };
 
 const specs = swaggerJsdoc(options);
