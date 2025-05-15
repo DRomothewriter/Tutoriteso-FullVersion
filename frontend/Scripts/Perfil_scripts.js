@@ -32,10 +32,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     const asesorias = await asesoriasRes.json();
 
+    const contenedorCreadas = document.createElement('div');
+    contenedorCreadas.classList.add('mb-5');
+
+    const tituloCreadas = document.createElement('h4');
+    tituloCreadas.textContent = 'Asesorías creadas';
+    contenedorCreadas.appendChild(tituloCreadas);
+
     if (asesorias.length === 0) {
-      cardRow.innerHTML += '<div class="text-muted">No tienes asesorías como asesor.</div>';
+      contenedorCreadas.innerHTML += '<div class="text-muted">No tienes asesorías como asesor.</div>';
     } else {
-      const fragment = document.createDocumentFragment();
       asesorias.forEach(asesoria => {
         const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
         let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
@@ -53,10 +59,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="propia">Eliminar</button>
           </div>
         `;
-        fragment.appendChild(card);
+        contenedorCreadas.appendChild(card);
       });
-      cardRow.appendChild(fragment);
     }
+    cardRow.appendChild(contenedorCreadas);
 
     // ================== ASESORÍAS INSCRITAS ==================
     const inscritasRes = await fetch(`${API_URL}/asesorias`, {
@@ -70,10 +76,16 @@ document.addEventListener('DOMContentLoaded', async function () {
       )
     );
 
+    const contenedorInscritas = document.createElement('div');
+    contenedorInscritas.classList.add('mb-5');
+
+    const tituloInscritas = document.createElement('h4');
+    tituloInscritas.textContent = 'Asesorías inscritas';
+    contenedorInscritas.appendChild(tituloInscritas);
+
     if (inscritas.length === 0) {
-      cardRow.innerHTML += '<div class="text-muted">No estás inscrito en ninguna asesoría.</div>';
+      contenedorInscritas.innerHTML += '<div class="text-muted">No estás inscrito en ninguna asesoría.</div>';
     } else {
-      const fragment = document.createDocumentFragment();
       inscritas.forEach(asesoria => {
         const sesionesFuturas = asesoria.sesiones.filter(s =>
           s.posiblesAsesorados.some(id => id._id === userId || id === userId) &&
@@ -90,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         card.className = 'card mb-3 border-success';
         card.innerHTML = `
           <div class="card-body">
-            <h5 class="card-title">[Inscrito] ${asesoria.materia?.name || 'Asesoría'}</h5>
+            <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
             <p class="card-text">
               ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
               <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
@@ -98,10 +110,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             <button class="btn btn-outline-danger btn-sm btn-cancelar-inscripcion" data-id="${asesoria._id}" data-type="inscrita">Cancelar inscripción</button>
           </div>
         `;
-        fragment.appendChild(card);
+        contenedorInscritas.appendChild(card);
       });
-      cardRow.appendChild(fragment);
     }
+    cardRow.appendChild(contenedorInscritas);
 
     // ============= Manejo de botones de eliminar =============
     cardRow.addEventListener('click', async function(e) {
