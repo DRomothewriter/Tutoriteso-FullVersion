@@ -80,50 +80,60 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   // ==================== RENDER PAGE ====================
-  function renderPageFiltrada(lista) {
-    cardsWrapper.innerHTML = "";
+function renderPageFiltrada(lista) {
+  cardsWrapper.innerHTML = "";
 
-    const start = (currentPage - 1) * cardsPerPage;
-    const end = start + cardsPerPage;
-    const asesoriasToShow = lista.slice(start, end);
-    console.log(asesoriasToShow);
+  // Filtrar asesorías que sí tienen sesiones futuras
+  const visibles = lista.filter(a =>
+    a.sesiones.some(s => new Date(s.fecha) >= new Date())
+  );
 
-    asesoriasToShow.forEach(asesoria => {
-      const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
-      let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
-        new Date(prev.fecha) < new Date(current.fecha) ? prev : current
-      );
-
-      if (sesionMasCercana) {
-        const cardHTML = `
-          <div class="col">
-            <div class="card shadow-sm border-0">
-                <!-- Imagen de la materia -->
-                <img
-                  src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}"
-                  class="img-fluid rounded-top"
-                  alt="Imagen"
-                  style="aspect-ratio: 16 / 9; object-fit: cover; width: 100%;">
-
-                <!-- Contenido textual -->
-                <div class="card-body">
-                <h5 class="card-title">${asesoria.materia?.name || 'Materia desconocida'}</h5>
-                <p class="card-text">
-                    <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}<br>
-                    <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
-                    <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}
-                </p>
-                <a href="#" class="btn btn-sm btn-primary">Inscribirse</a>
-                </div>
-            </div>
-          </div>
-        `;
-        cardsWrapper.insertAdjacentHTML("beforeend", cardHTML);
-      }
-    });
-
-    renderPagination(lista);
+  if (visibles.length === 0) {
+    cardsWrapper.innerHTML = `
+      <div class="col-12 text-center text-muted py-5">
+        <p>No se encontraron asesorías disponibles.</p>
+      </div>
+    `;
+    paginacion.innerHTML = ''; // Quitar paginación
+    return;
   }
+
+  const start = (currentPage - 1) * cardsPerPage;
+  const end = start + cardsPerPage;
+  const asesoriasToShow = visibles.slice(start, end);
+
+  asesoriasToShow.forEach(asesoria => {
+    const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
+    let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
+      new Date(prev.fecha) < new Date(current.fecha) ? prev : current
+    );
+
+    const cardHTML = `
+      <div class="col">
+        <div class="card shadow-sm border-0">
+          <img
+            src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}"
+            class="img-fluid rounded-top"
+            alt="Imagen"
+            style="aspect-ratio: 16 / 9; object-fit: cover; width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title">${asesoria.materia?.name || 'Materia desconocida'}</h5>
+            <p class="card-text">
+              <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}<br>
+              <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
+              <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}
+            </p>
+            <a href="#" class="btn btn-sm btn-primary">Inscribirse</a>
+          </div>
+        </div>
+      </div>
+    `;
+    cardsWrapper.insertAdjacentHTML("beforeend", cardHTML);
+  });
+
+  renderPagination(visibles);
+}
+
 
   function renderPagination(lista) {
     const totalPages = Math.ceil(lista.length / cardsPerPage);
