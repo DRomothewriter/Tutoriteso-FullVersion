@@ -93,6 +93,42 @@
     </div>
   </div>
 
+  <!-- Modal para editar asesoría -->
+<div class="modal fade" id="modalEditarAsesoria" tabindex="-1" aria-labelledby="editarAsesoriaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formEditarAsesoria">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarAsesoriaLabel">Editar Asesoría</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editarAsesoriaId">
+
+          <div class="mb-3">
+            <label for="editarMateria" class="form-label">Materia</label>
+            <select class="form-select" id="editarMateria" required>
+              <option value="">Selecciona una materia</option>
+              <!-- Se llenará dinámicamente con JavaScript -->
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="editarFecha" class="form-label">Fecha de la sesión</label>
+            <input type="datetime-local" class="form-control" id="editarFecha" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
   <!-- Renglón de Cartas -->
   <div class="container mt-4">
     <div class="card-row pb-2">
@@ -106,8 +142,8 @@
   </div>
 
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../Scripts/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
+  <script src="../Scripts/config.js"></script>
     <script src="../Scripts/Perfil_scripts.js"></script>
 </body>
 </html>
