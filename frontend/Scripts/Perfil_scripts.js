@@ -158,12 +158,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 document.querySelector('.btn-outline-danger').addEventListener('click', async function (e) {
   e.preventDefault();
   try {
-    await fetch(`${API_URL}/logout`, {
+    const res = await fetch(`${API_URL}/logout`, {
       method: 'POST',
       credentials: 'include'
     });
+
+    if (!res.ok) {
+      const data = await res.json();
+      alert(`Error al cerrar sesión: ${data.message || 'Inténtalo de nuevo más tarde.'}`);
+      return;
+    }
+
+    // Si todo salió bien, redirigir al inicio
+    window.location.href = '../index.html';
+
   } catch (error) {
-    // Ignora errores
+    console.error("Error al hacer logout:", error);
+    alert("Error al intentar cerrar sesión. Revisa tu conexión o intenta nuevamente.");
   }
-  window.location.href = '../index.html';
 });
