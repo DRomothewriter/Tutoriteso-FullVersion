@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div class="col">
             <div class="card shadow-sm border-0">
                 <!-- Imagen de la materia -->
-                <img 
+                <img
                   src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}"
-                  class="card-img-top rounded-top"
-                  alt="Imagen de la materia"
-                  style="height: 150px; object-fit: cover;">
+                  class="img-fluid rounded-top"
+                  alt="Imagen"
+                  style="aspect-ratio: 16 / 9; object-fit: cover; width: 50%;">
 
                 <!-- Contenido textual -->
                 <div class="card-body">
