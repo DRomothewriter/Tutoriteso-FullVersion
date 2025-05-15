@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       const allAsesorias = await AsesoriasResponse.json();
 
+      console.log(allAsesorias);
+
       asesorias = allAsesorias.filter(asesoria =>
         asesoria.sesiones.some(s => new Date(s.fecha) >= new Date())
       );
