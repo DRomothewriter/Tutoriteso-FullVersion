@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const start = (currentPage - 1) * cardsPerPage;
     const end = start + cardsPerPage;
     const asesoriasToShow = lista.slice(start, end);
+    console.log(asesoriasToShow);
 
     asesoriasToShow.forEach(asesoria => {
       const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
