@@ -51,8 +51,7 @@ exports.getAsesorias = async (req, res) => {
     const asesorias = await Asesoria.find()
       .populate('asesor', 'name')
       .populate('sesiones.posiblesAsesorados')
-      .populate('materia', 'name')
-      .populate('materia', 'url'); // <- corregido aquí
+      .populate('materia') 
 
     res.status(200).json(asesorias);
   } catch (err) {
