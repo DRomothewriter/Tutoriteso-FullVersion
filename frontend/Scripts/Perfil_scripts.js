@@ -94,6 +94,6 @@ document.querySelector('.btn-outline-danger').addEventListener('click', async fu
     // Ignora errores para asegurar el logout
   }
   
-  window.location.href = 'LogIn.html';
+  window.location.href = '../index.html';
 });
 
