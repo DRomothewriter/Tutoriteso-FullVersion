@@ -124,6 +124,30 @@ router.post('/', userController.createUser);
  *                   example: Error en el servidor
  */
 router.post('/login', loginController.login);
+
+/**
+ * @swagger
+ * /api/users/logout:
+ *   post:
+ *     summary: Cerrar sesión del usuario
+ *     description: Cierra la sesión del usuario autenticado eliminando la cookie del token.
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Sesión cerrada correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Sesión cerrada correctamente
+ *       500:
+ *         description: Error interno del servidor al cerrar sesión.
+ */
+
+
 router.post('/logout', logoutController.logout);
 
 /**

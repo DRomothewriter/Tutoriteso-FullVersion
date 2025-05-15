@@ -3,16 +3,19 @@ require('dotenv').config();
 const cors = require("cors");  // Importar el paquete cors
 const express = require('express');
 const connectDB = require('./config/database');
-const setupSwagger = require("./config/swaggerConfig");
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+
+const setupSwagger = require("./config/swaggerConfig");
+setupSwagger(app); // <-  activa swagger
+
 
 const app = express();
 connectDB();
 
 // Middleware para permitir CORS
 app.use(cors({
-    origin: "https://tutoriteso-fullversion-1.onrender.com", // Cambia esto a la URL de tu frontend
+    origin: "https://tutoriteso-fullversion-1.onrender.com", // URL de tu Frontend
     credentials: true
 })); // Habilita CORS para todas las rutas
 
@@ -20,7 +23,7 @@ app.use(cookieParser());
 
 // Para aceptar y procesar datos en formato JSON
 app.use(express.json());
-setupSwagger(app);
+
 
 // Rutas de los modelos
 const userRoutes = require('./routes/user.routes');
@@ -35,7 +38,7 @@ app.use('/api/materias', materiaRoutes);
 app.use('/api/posts', postForoRoutes);
 app.use('/api/comentarios', comentarioRoutes);
 
-// Nueva ruta para verificar la autenticación del usuario mediante cookies
+// Ruta para verificar la autenticación del usuario mediante cookies
 app.get('/api/verify-token', (req, res) => {
     const token = req.cookies.token;
 

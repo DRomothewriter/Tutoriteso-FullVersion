@@ -8,11 +8,11 @@ const createUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    console.log("Datos recibidos del cliente:");
-    console.log("Nombre:", name);
-    console.log("Email:", email);
-    console.log("Contraseña:", password);
-    console.log("Rol:", role);
+   // console.log("Datos recibidos del cliente:");
+    //console.log("Nombre:", name);
+    //console.log("Email:", email);
+    //console.log("Contraseña:", password);
+    //console.log("Rol:", role);
 
     // Verificar si el correo tiene un formato válido
     if (!validator.isEmail(email)) {
@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
 
     // Generar JWT
     const jwtSecret = process.env.JWT_SECRET;
-    console.log("Secreto JWT:", jwtSecret); // Para depuración
+    //console.log("Secreto JWT:", jwtSecret); // Para depuración
     const token = jwt.sign({ userId: user._id, role: user.role }, jwtSecret, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
