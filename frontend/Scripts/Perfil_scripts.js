@@ -51,13 +51,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-        <div class="card-body">
-            <h5 class="card-title">${asesoria.materia.name|| 'Asesoría'}</h5>
-            <p class="card-text">${sesionMasCercana.fecha || 'descripcion o fecha'}</p>
-            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}">Eliminar</button>
-      
-        </div>
+          <div class="card-body">
+            <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
+            <p class="card-text">
+              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'descripcion o fecha'}
+            </p>
+            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}">
+              Eliminar
+            </button>
+          </div>
         `;
+
         fragment.appendChild(card);
     });
     cardRow.appendChild(fragment);
