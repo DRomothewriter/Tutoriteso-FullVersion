@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div class="card-body">
             <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
             <p class="card-text">
-              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'Sin fecha disponible'}
+              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'Sin fecha disponible'}<br>
+              <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
             </p>
             <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="propia">Eliminar</button>
           </div>
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
               <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
             </p>
-            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="inscrita">Eliminar</button>
+            <button class="btn btn-danger btn-sm btn-cancelar-inscripcion" data-id="${asesoria._id}" data-type="inscrita">Eliminar</button>
           </div>
         `;
         contenedorInscritas.appendChild(card);
