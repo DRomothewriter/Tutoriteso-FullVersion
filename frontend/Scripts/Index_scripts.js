@@ -99,9 +99,11 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div class="col">
             <div class="card shadow-sm border-0">
                 <!-- Imagen de la materia -->
-                <img class="card-img-top rounded-top" src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}" 
-                    class="card-img-top" 
-                    alt="Imagen de la materia">
+                <img 
+                  src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}"
+                  class="card-img-top rounded-top"
+                  alt="Imagen de la materia"
+                  style="height: 150px; object-fit: cover;">
 
                 <!-- Contenido textual -->
                 <div class="card-body">
