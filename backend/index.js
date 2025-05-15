@@ -6,7 +6,7 @@ const connectDB = require('./config/database');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const setupSwagger = require("./config/swaggerConfig");
+const setupSwagger = require("swaggerConfig");
 
 
 const app = express();
