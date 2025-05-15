@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     if (!res.ok) {
-      window.location.href = 'Views/LogIn.html';
+      window.location.href = 'LogIn.html';
     } else {
       const data = await res.json();
       const userId = data.user.userId;
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   } catch (error) {
     console.error('Error general:', error);
-    window.location.href = 'Views/LogIn.html';
+    window.location.href = 'LogIn.html';
   }
 
   // ==================== FILTROS ====================

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (response.ok) {
                 // Redirigir a la página de inicio o a otro lugar
-                 window.location.href = '../index.html'; // Redirigir al home
+                 window.location.href = 'home.html'; // Redirigir al home
             } else {
                 // Mostrar el mensaje de error del backend
                 alert(`Error: ${data.message || 'No se pudo hacer log in'}`);

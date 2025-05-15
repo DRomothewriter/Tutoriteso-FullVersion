@@ -65,10 +65,10 @@ exports.getAsesoriasByAsesor = async (req, res) => {
     const asesorId = req.user.userId; // <- lo tomamos del token decodificado
 
     const asesorias = await Asesoria.find({ asesor: asesorId })
-      .populate('materia', 'name')
+      .populate('materia') 
       .populate('asesor', 'name')
       .populate('sesiones.posiblesAsesorados')
-      .populate('materia', 'url'); // <- corregido aquí
+      
 
     res.status(200).json(asesorias);
   } catch (err) {
