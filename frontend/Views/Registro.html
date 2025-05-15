@@ -23,7 +23,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" placeholder="********" required>
+                            <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            placeholder="********" 
+                            required 
+                            pattern="^(?=.*[A-Z])(?=.*\d).{5,}$"
+                            title="La contraseña debe tener al menos una letra mayúscula, un número y mínimo 5 caracteres.">
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success">Crear cuenta</button>
