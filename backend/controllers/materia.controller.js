@@ -3,11 +3,12 @@ const Materia = require('../models/materia.model');
 // Crear una nueva materia
 exports.createMateria = async (req, res) => {
   try {
-    const { name, description, category } = req.body;
+    const { name, description, category , url} = req.body;
     const materia = new Materia({
       name,
       description,
       category,
+      url
     });
     await materia.save();
     res.status(201).json(materia);
