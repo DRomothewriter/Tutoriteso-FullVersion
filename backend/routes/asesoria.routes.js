@@ -10,6 +10,7 @@ router.get('/mis-asesorias', authMiddleware, asesoriaController.getAsesoriasByAs
 router.get('/', asesoriaController.getAsesorias);
 
 router.post('/:id/inscribirse', authMiddleware, inscribirseAsesoria);
+router.post('/:id/cancelar-inscripcion', authMiddleware, asesoriaController.cancelarInscripcion);
 
 router.get('/:id', asesoriaController.getAsesoriaById);
 router.put('/:id', authMiddleware, asesoriaController.updateAsesoria);

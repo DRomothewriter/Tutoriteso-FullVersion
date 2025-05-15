@@ -154,3 +154,40 @@ exports.inscribirseAsesoria = async (req, res) => {
   }
 };
 
+// Cancelar inscripción del usuario autenticado en la asesoría
+exports.cancelarInscripcion = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const asesoriaId = req.params.id;
+
+    const asesoria = await Asesoria.findById(asesoriaId);
+    if (!asesoria) {
+      return res.status(404).json({ message: 'Asesoría no encontrada' });
+    }
+
+    let actualizado = false;
+
+    asesoria.sesiones.forEach(sesion => {
+      const index = sesion.posiblesAsesorados.findIndex(id =>
+        id.toString() === userId
+      );
+      if (index !== -1) {
+        sesion.posiblesAsesorados.splice(index, 1);
+        actualizado = true;
+      }
+    });
+
+    if (!actualizado) {
+      return res.status(400).json({ message: 'No estabas inscrito en esta asesoría' });
+    }
+
+    await asesoria.save();
+    res.status(200).json({ message: 'Inscripción cancelada correctamente' });
+
+  } catch (err) {
+    console.error('Error al cancelar inscripción:', err);
+    res.status(500).json({ message: 'Error interno al cancelar la inscripción' });
+  }
+};
+
+

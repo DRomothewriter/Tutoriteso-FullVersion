@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       return;
     }
 
-
     const data = await res.json();
     const userId = data.user.userId;
 
@@ -21,68 +20,121 @@ document.addEventListener('DOMContentLoaded', async function () {
     const user = await userRes.json();
 
     const userID = document.getElementById('UserIdentifier');
-
-
     userID.firstChild.textContent = user.name + '\t';
-    // Actualiza el DOM con los datos del usuario
     document.querySelector('.card-title').textContent = user.name || 'Nombre de Usuario';
-    //document.querySelector('.card-text').textContent = user.bio || 'Esta es una breve biografía del usuario. Puedes hablar un poco sobre tus intereses o cualquier otra información.';
 
+    const cardRow = document.querySelector('.card-row');
+    cardRow.innerHTML = '';
 
-// Obtiene las asesorías donde el usuario es asesor
+    // ================== ASESORÍAS COMO ASESOR ==================
     const asesoriasRes = await fetch(`${API_URL}/asesorias/mis-asesorias`, {
-    credentials: 'include'
+      credentials: 'include'
     });
     const asesorias = await asesoriasRes.json();
 
-    // Selecciona el contenedor de cartas
-    const cardRow = document.querySelector('.card-row');
-    cardRow.innerHTML = ''; // Limpia cartas anteriores
-
     if (asesorias.length === 0) {
-    cardRow.innerHTML = '<div class="text-muted">No tienes asesorías como asesor.</div>';
+      cardRow.innerHTML += '<div class="text-muted">No tienes asesorías como asesor.</div>';
     } else {
-    const fragment = document.createDocumentFragment();
-    asesorias.forEach(asesoria => {
+      const fragment = document.createDocumentFragment();
+      asesorias.forEach(asesoria => {
         const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
         let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
-        new Date(prev.fecha) < new Date(current.fecha) ? prev : current
-      );
+          new Date(prev.fecha) < new Date(current.fecha) ? prev : current
+        );
+
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'card mb-3';
         card.innerHTML = `
           <div class="card-body">
             <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
             <p class="card-text">
-              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'descripcion o fecha'}
+              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'Sin fecha disponible'}
             </p>
-            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}">
-              Eliminar
-            </button>
+            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="propia">Eliminar</button>
           </div>
         `;
-
         fragment.appendChild(card);
+      });
+      cardRow.appendChild(fragment);
+    }
+
+    // ================== ASESORÍAS INSCRITAS ==================
+    const inscritasRes = await fetch(`${API_URL}/asesorias`, {
+      credentials: 'include'
     });
-    cardRow.appendChild(fragment);
+    const todasAsesorias = await inscritasRes.json();
+
+    const inscritas = todasAsesorias.filter(a =>
+      a.sesiones.some(s =>
+        s.posiblesAsesorados.some(id => id._id === userId || id === userId)
+      )
+    );
+
+    if (inscritas.length === 0) {
+      cardRow.innerHTML += '<div class="text-muted">No estás inscrito en ninguna asesoría.</div>';
+    } else {
+      const fragment = document.createDocumentFragment();
+      inscritas.forEach(asesoria => {
+        const sesionesFuturas = asesoria.sesiones.filter(s =>
+          s.posiblesAsesorados.some(id => id._id === userId || id === userId) &&
+          new Date(s.fecha) >= new Date()
+        );
+
+        if (sesionesFuturas.length === 0) return;
+
+        let sesionMasCercana = sesionesFuturas.reduce((prev, current) =>
+          new Date(prev.fecha) < new Date(current.fecha) ? prev : current
+        );
+
+        const card = document.createElement('div');
+        card.className = 'card mb-3 border-success';
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">[Inscrito] ${asesoria.materia?.name || 'Asesoría'}</h5>
+            <p class="card-text">
+              ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
+              <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
+            </p>
+            <button class="btn btn-outline-danger btn-sm btn-cancelar-inscripcion" data-id="${asesoria._id}" data-type="inscrita">Cancelar inscripción</button>
+          </div>
+        `;
+        fragment.appendChild(card);
+      });
+      cardRow.appendChild(fragment);
+    }
+
+    // ============= Manejo de botones de eliminar =============
     cardRow.addEventListener('click', async function(e) {
-    if (e.target.classList.contains('btn-eliminar-asesoria')) {
       const id = e.target.getAttribute('data-id');
-      if (confirm('¿Seguro que deseas eliminar esta asesoría?')) {
-        try {
-          await fetch(`${API_URL}/asesorias/${id}`, {
-            method: 'DELETE',
-            credentials: 'include'
-          });
-          e.target.closest('.card').remove();
-        } catch (error) {
-          alert('Error al eliminar la asesoría');
+      const type = e.target.getAttribute('data-type');
+
+      if (e.target.classList.contains('btn-eliminar-asesoria')) {
+        if (confirm('¿Seguro que deseas eliminar esta asesoría?')) {
+          try {
+            await fetch(`${API_URL}/asesorias/${id}`, {
+              method: 'DELETE',
+              credentials: 'include'
+            });
+            e.target.closest('.card').remove();
+          } catch (error) {
+            alert('Error al eliminar la asesoría');
+          }
+        }
+      } else if (e.target.classList.contains('btn-cancelar-inscripcion')) {
+        if (confirm('¿Deseas cancelar tu inscripción a esta asesoría?')) {
+          try {
+            await fetch(`${API_URL}/asesorias/${id}/cancelar-inscripcion`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include'
+            });
+            e.target.closest('.card').remove();
+          } catch (error) {
+            alert('Error al cancelar la inscripción');
+          }
         }
       }
-    }
     });
-
-    }
 
   } catch (error) {
     console.error('Error al cargar el perfil:', error);
@@ -92,15 +144,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 document.querySelector('.btn-outline-danger').addEventListener('click', async function (e) {
   e.preventDefault();
-    try {
+  try {
     await fetch(`${API_URL}/logout`, {
       method: 'POST',
       credentials: 'include'
     });
   } catch (error) {
-    // Ignora errores para asegurar el logout
+    // Ignora errores
   }
-  
   window.location.href = '../index.html';
 });
-
