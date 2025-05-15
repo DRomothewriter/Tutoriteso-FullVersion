@@ -10,7 +10,7 @@ const options = {
       description: "Documentación de la API para TutorITESO"
     },
   },
-  apis: ["./routes/*.js"], // ✅ Asegúrate que esta ruta apunta a tus archivos con anotaciones Swagger
+  apis: ["./routes/*.js"], 
 };
 
 const specs = swaggerJsdoc(options);
