@@ -51,7 +51,8 @@ exports.getAsesorias = async (req, res) => {
     const asesorias = await Asesoria.find()
       .populate('asesor', 'name')
       .populate('sesiones.posiblesAsesorados')
-      .populate('materia', 'name'); // <- corregido aquí
+      .populate('materia', 'name')
+      .populate('materia', 'url'); // <- corregido aquí
 
     res.status(200).json(asesorias);
   } catch (err) {
@@ -67,7 +68,8 @@ exports.getAsesoriasByAsesor = async (req, res) => {
     const asesorias = await Asesoria.find({ asesor: asesorId })
       .populate('materia', 'name')
       .populate('asesor', 'name')
-      .populate('sesiones.posiblesAsesorados');
+      .populate('sesiones.posiblesAsesorados')
+      .populate('materia', 'url'); // <- corregido aquí
 
     res.status(200).json(asesorias);
   } catch (err) {
@@ -79,7 +81,7 @@ exports.getAsesoriasByAsesor = async (req, res) => {
 // Obtener una asesoría por su ID
 exports.getAsesoriaById = async (req, res) => {
   try {
-    const asesoria = await Asesoria.findById(req.params.id).populate('asesor', 'name').populate('sesiones.posiblesAsesorados').populate('materia', 'name');
+    const asesoria = await Asesoria.findById(req.params.id).populate('asesor', 'name').populate('sesiones.posiblesAsesorados').populate('materia', 'name').populate('materia', 'url');
     if (!asesoria) return res.status(404).json({ message: 'Asesoría no encontrada' });
     res.status(200).json(asesoria);
   } catch (err) {

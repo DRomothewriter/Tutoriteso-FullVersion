@@ -94,18 +94,25 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (sesionMasCercana) {
         const cardHTML = `
           <div class="col">
-            <div class="card">
-              <div class="card-body">
+            <div class="card shadow-sm border-0">
+                <!-- Imagen de la materia -->
+                <img class="card-img-top rounded-top" src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}" 
+                    class="card-img-top" 
+                    alt="Imagen de la materia">
+
+                <!-- Contenido textual -->
+                <div class="card-body">
                 <h5 class="card-title">${asesoria.materia?.name || 'Materia desconocida'}</h5>
                 <p class="card-text">
-                  <strong>Asesor:</strong> ${asesoria.asesor?.name}<br>
-                  <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
-                  <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}<br>
+                    <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}<br>
+                    <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
+                    <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}
                 </p>
-                <a href="#" class="btn btn-primary">Ver más</a>
-              </div>
+                <a href="#" class="btn btn-sm btn-primary">Ver más</a>
+                </div>
             </div>
-          </div>`;
+          </div>
+        `;
         cardsWrapper.insertAdjacentHTML("beforeend", cardHTML);
       }
     });

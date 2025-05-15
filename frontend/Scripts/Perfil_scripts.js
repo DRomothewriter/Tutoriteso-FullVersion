@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     userID.firstChild.textContent = user.name + '\t';
     // Actualiza el DOM con los datos del usuario
-    document.querySelector('.user-img').src = user.profileImage || 'https://via.placeholder.com/120';
+    document.querySelector('.user-img').src = user.profileImage || 'imgProyectos/imageprofile.jpg';
     document.querySelector('.card-title').textContent = user.name || 'Nombre de Usuario';
     document.querySelector('.card-text').textContent = user.bio || 'Esta es una breve biografía del usuario. Puedes hablar un poco sobre tus intereses o cualquier otra información.';
 
