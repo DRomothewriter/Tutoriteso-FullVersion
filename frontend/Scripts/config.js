@@ -1,2 +1,2 @@
 // Scripts/config.js
-const API_URL = "http://localhost:5501/api";
+const API_URL = "https://tutoriteso-fullversion.onrender.com/api";

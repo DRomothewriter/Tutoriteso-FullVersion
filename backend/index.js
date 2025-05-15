@@ -12,7 +12,7 @@ connectDB();
 
 // Middleware para permitir CORS
 app.use(cors({
-    origin: "http://127.0.0.1:5501", // Cambia esto a la URL de tu frontend
+    origin: "https://tutoriteso-fullversion-1.onrender.com", // Cambia esto a la URL de tu frontend
     credentials: true
 })); // Habilita CORS para todas las rutas
 
