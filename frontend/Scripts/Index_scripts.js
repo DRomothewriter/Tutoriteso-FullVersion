@@ -123,12 +123,40 @@ function renderPageFiltrada(lista) {
               <strong>Plataforma:</strong> ${asesoria.plataforma}<br>
               <strong>Fecha:</strong> ${new Date(sesionMasCercana.fecha).toLocaleString()}
             </p>
-            <a href="#" class="btn btn-sm btn-primary">Inscribirse</a>
+            <a href="#" class="btn btn-sm btn-primary btn-inscribirse" data-id="${asesoria._id}">Inscribirse</a>
           </div>
         </div>
       </div>
     `;
     cardsWrapper.insertAdjacentHTML("beforeend", cardHTML);
+
+      cardsWrapper.addEventListener('click', async function (e) {
+  if (e.target.classList.contains('btn-inscribirse')) {
+    e.preventDefault();
+    const asesoriaId = e.target.getAttribute('data-id');
+
+    try {
+      const res = await fetch(`${API_URL}/asesorias/${asesoriaId}/inscribirse`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Te has inscrito correctamente a la asesoría');
+      } else {
+        alert(`⚠️ ${data.message}`);
+      }
+
+    } catch (err) {
+      console.error('Error al inscribirse:', err);
+      alert('Error al intentar inscribirte. Intenta más tarde.');
+    }
+  }
+});
+
+
   });
 
   renderPagination(visibles);

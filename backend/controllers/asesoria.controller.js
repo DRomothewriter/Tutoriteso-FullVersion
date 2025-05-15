@@ -115,3 +115,42 @@ exports.deleteAsesoria = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Inscribir usuario autenticado a la sesión más próxima de una asesoría
+exports.inscribirseAsesoria = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const asesoriaId = req.params.id;
+
+    const asesoria = await Asesoria.findById(asesoriaId);
+    if (!asesoria) {
+      return res.status(404).json({ message: 'Asesoría no encontrada' });
+    }
+
+    // Buscar la sesión más próxima
+    const sesionesFuturas = asesoria.sesiones.filter(s => new Date(s.fecha) >= new Date());
+    if (sesionesFuturas.length === 0) {
+      return res.status(400).json({ message: 'No hay sesiones futuras disponibles' });
+    }
+
+    const sesionMasCercana = sesionesFuturas.reduce((prev, curr) =>
+      new Date(prev.fecha) < new Date(curr.fecha) ? prev : curr
+    );
+
+    // Revisar si ya está inscrito
+    if (sesionMasCercana.posiblesAsesorados.includes(userId)) {
+      return res.status(400).json({ message: 'Ya estás inscrito en esta sesión' });
+    }
+
+    // Agregar usuario
+    sesionMasCercana.posiblesAsesorados.push(userId);
+    await asesoria.save();
+
+    res.status(200).json({ message: 'Inscripción exitosa' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al inscribirse' });
+  }
+};
+
