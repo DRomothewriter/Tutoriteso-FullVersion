@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                   src="${asesoria.materia?.url || 'https://via.placeholder.com/300x150'}"
                   class="img-fluid rounded-top"
                   alt="Imagen"
-                  style="aspect-ratio: 16 / 9; object-fit: cover; width: 50%;">
+                  style="aspect-ratio: 16 / 9; object-fit: cover; width: 100%;">
 
                 <!-- Contenido textual -->
                 <div class="card-body">
