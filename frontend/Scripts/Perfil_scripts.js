@@ -170,6 +170,7 @@ document.querySelector('.btn-outline-danger').addEventListener('click', async fu
     }
 
     // Si todo salió bien, redirigir al inicio
+    alert(`Logout exitoso'}`);
     window.location.href = '../index.html';
 
   } catch (error) {
