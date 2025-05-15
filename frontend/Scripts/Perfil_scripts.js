@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 document.querySelector('.btn-outline-danger').addEventListener('click', async function (e) {
   e.preventDefault();
   try {
-    const res = await fetch(`${API_URL}/logout`, {
+    const res = await fetch(`${API_URL}/users/logout`, {
       method: 'POST',
       credentials: 'include'
     });
