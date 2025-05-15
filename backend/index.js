@@ -7,11 +7,12 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const setupSwagger = require("./config/swaggerConfig");
-setupSwagger(app); // <-  activa swagger
 
 
 const app = express();
 connectDB();
+
+setupSwagger(app); // <-  activa swagger
 
 // Middleware para permitir CORS
 app.use(cors({
