@@ -92,18 +92,26 @@ exports.getAsesoriaById = async (req, res) => {
 // Actualizar una asesoría
 exports.updateAsesoria = async (req, res) => {
   try {
-    const { materia, sesiones } = req.body;
-    const asesoria = await Asesoria.findByIdAndUpdate(
-      req.params.id,
-      { materia, sesiones },
-      { new: true }
-    );
-    if (!asesoria) return res.status(404).json({ message: 'Asesoría no encontrada' });
+    const { materia, fecha } = req.body;
+
+    const asesoria = await Asesoria.findById(req.params.id);
+    if (!asesoria) {
+      return res.status(404).json({ message: 'Asesoría no encontrada' });
+    }
+
+    if (materia) asesoria.materia = materia;
+
+    if (fecha && asesoria.sesiones.length > 0) {
+      asesoria.sesiones[0].fecha = fecha; // solo actualiza la primera sesión
+    }
+
+    await asesoria.save();
     res.status(200).json(asesoria);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // Eliminar una asesoría
 exports.deleteAsesoria = async (req, res) => {

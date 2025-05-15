@@ -50,16 +50,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const card = document.createElement('div');
         card.className = 'card mb-3';
-        card.innerHTML = `
-          <div class="card-body">
-            <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
-            <p class="card-text">
-              ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'Sin fecha disponible'}<br>
-              <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
-            </p>
-            <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="propia">Eliminar</button>
-          </div>
-        `;
+       card.innerHTML = `
+        <div class="card-body">
+          <h5 class="card-title">${asesoria.materia?.name || 'Asesoría'}</h5>
+          <p class="card-text">
+            ${sesionMasCercana ? new Date(sesionMasCercana.fecha).toLocaleString() : 'Sin fecha disponible'}<br>
+            <strong>Asesor:</strong> ${asesoria.asesor?.name || 'Desconocido'}
+          </p>
+          <button class="btn btn-warning btn-sm btn-editar-asesoria me-2" data-id="${asesoria._id}">Editar</button>
+          <button class="btn btn-danger btn-sm btn-eliminar-asesoria" data-id="${asesoria._id}" data-type="propia">Eliminar</button>
+        </div>
+      `;
         contenedorCreadas.appendChild(card);
       });
     }
@@ -178,3 +179,118 @@ document.querySelector('.btn-outline-danger').addEventListener('click', async fu
     alert("Error al intentar cerrar sesión. Revisa tu conexión o intenta nuevamente.");
   }
 });
+
+document.body.addEventListener('click', function (e) {
+  if (e.target.classList.contains('btn-editar-asesoria')) {
+    const id = e.target.getAttribute('data-id');
+    const card = e.target.closest('.card');
+    const materia = card.querySelector('.card-title').textContent;
+
+    // Buscar fecha directamente desde el primer <br> o <p>
+    const textoFecha = card.querySelector('.card-text')?.innerText?.trim().split('\n')[0] || '';
+    let fechaISO = '';
+
+    try {
+      const fechaLocal = new Date(textoFecha);
+      if (!isNaN(fechaLocal)) {
+        fechaISO = fechaLocal.toISOString().slice(0, 16); // compatible con datetime-local
+      }
+    } catch {
+      fechaISO = '';
+    }
+
+    document.getElementById('editarAsesoriaId').value = id;
+    document.getElementById('editarMateria').value = materia;
+    document.getElementById('editarFecha').value = fechaISO;
+
+    const modal = new bootstrap.Modal(document.getElementById('modalEditarAsesoria'));
+    console.log('Mostrando modal para ID:', id, 'con fecha:', fechaISO);
+    modal.show();
+  }
+});
+
+async function cargarMateriasDropdown() {
+  try {
+    const res = await fetch(`${API_URL}/materias`, {
+      credentials: 'include'
+    });
+    const materias = await res.json();
+    const select = document.getElementById('editarMateria');
+
+    // Limpia y agrega opciones
+    select.innerHTML = '<option value="">Selecciona una materia</option>';
+    materias.forEach(m => {
+      const option = document.createElement('option');
+      option.value = m._id;
+      option.textContent = m.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Error al cargar materias:', error);
+  }
+}
+
+document.body.addEventListener('click', async function (e) {
+  if (e.target.classList.contains('btn-editar-asesoria')) {
+    const id = e.target.getAttribute('data-id');
+    const card = e.target.closest('.card');
+    const materiaNombre = card.querySelector('.card-title').textContent;
+
+    // Extraer fecha desde el primer <p> del texto
+    const textoFecha = card.querySelector('.card-text')?.innerText?.trim().split('\n')[0] || '';
+    let fechaISO = '';
+
+    try {
+      const fechaLocal = new Date(textoFecha);
+      if (!isNaN(fechaLocal)) {
+        fechaISO = fechaLocal.toISOString().slice(0, 16); // datetime-local
+      }
+    } catch {
+      fechaISO = '';
+    }
+
+    await cargarMateriasDropdown();
+
+    // Seleccionar la materia actual
+    const select = document.getElementById('editarMateria');
+    const optionToSelect = [...select.options].find(opt => opt.textContent === materiaNombre);
+    if (optionToSelect) {
+      select.value = optionToSelect.value;
+    }
+
+    document.getElementById('editarAsesoriaId').value = id;
+    document.getElementById('editarFecha').value = fechaISO;
+
+    const modal = new bootstrap.Modal(document.getElementById('modalEditarAsesoria'));
+    modal.show();
+  }
+});
+
+
+document.getElementById('formEditarAsesoria').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const id = document.getElementById('editarAsesoriaId').value;
+  const materia = document.getElementById('editarMateria').value;
+  const fecha = new Date(document.getElementById('editarFecha').value).toISOString();
+
+  try {
+    const res = await fetch(`${API_URL}/asesorias/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        materia,
+        fecha
+      })
+    });
+
+    if (!res.ok) throw new Error('Error al actualizar asesoría');
+
+    location.reload(); // o refrescar dinámicamente las tarjetas si lo prefieres
+  } catch (error) {
+    alert('No se pudo actualizar la asesoría');
+  }
+});
+
+
