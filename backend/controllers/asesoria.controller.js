@@ -169,7 +169,7 @@ exports.cancelarInscripcion = async (req, res) => {
 
     asesoria.sesiones.forEach(sesion => {
       const index = sesion.posiblesAsesorados.findIndex(id =>
-        id.toString() === userId
+        id.equals(userId)
       );
       if (index !== -1) {
         sesion.posiblesAsesorados.splice(index, 1);
@@ -189,5 +189,6 @@ exports.cancelarInscripcion = async (req, res) => {
     res.status(500).json({ message: 'Error interno al cancelar la inscripción' });
   }
 };
+
 
 
