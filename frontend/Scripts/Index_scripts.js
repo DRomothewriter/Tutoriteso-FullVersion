@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   let asesorias = [];
   let currentPage = 1;
-  const cardsPerPage = 9;
+  const cardsPerPage = 6 ;
 
   // =================== CARGA DE USUARIO ===================
   try {
