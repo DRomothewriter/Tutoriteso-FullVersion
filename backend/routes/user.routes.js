@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
-const loginController = require('../controllers/login.controller'); 
+const loginController = require('../controllers/login.controller');
+const logoutController = require('../controllers/logout.controller');
+
 const { authMiddleware, adminMiddleware } = require('../middleware/UserAuth');
 
 /**
@@ -122,6 +124,7 @@ router.post('/', userController.createUser);
  *                   example: Error en el servidor
  */
 router.post('/login', loginController.login);
+router.post('/logout', logoutController.logout);
 
 /**
  * @swagger
