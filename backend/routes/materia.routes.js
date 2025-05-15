@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const materiaController = require('../controllers/materia.controller');
+
 /**
  * @swagger
  * tags:
@@ -34,6 +38,8 @@
  *     responses:
  *       201:
  *         description: Materia creada exitosamente.
+ *       400:
+ *         description: Petición inválida.
  *       500:
  *         description: Error interno del servidor.
  */
@@ -57,7 +63,7 @@ router.get('/', materiaController.getMaterias);
  * @swagger
  * /api/materias/{id}:
  *   get:
- *     summary: Obtener materia por ID
+ *     summary: Obtener una materia por ID
  *     tags: [Materias]
  *     parameters:
  *       - in: path
@@ -68,11 +74,11 @@ router.get('/', materiaController.getMaterias);
  *         description: ID de la materia
  *     responses:
  *       200:
- *         description: Materia encontrada.
+ *         description: Materia encontrada exitosamente.
  *       404:
  *         description: Materia no encontrada.
  *       500:
- *         description: Error interno.
+ *         description: Error interno del servidor.
  */
 router.get('/:id', materiaController.getMateriaById);
 
@@ -80,7 +86,7 @@ router.get('/:id', materiaController.getMateriaById);
  * @swagger
  * /api/materias/{id}:
  *   put:
- *     summary: Actualizar una materia por ID
+ *     summary: Actualizar una materia existente
  *     tags: [Materias]
  *     parameters:
  *       - in: path
@@ -88,7 +94,7 @@ router.get('/:id', materiaController.getMateriaById);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID de la materia a actualizar
+ *         description: ID de la materia
  *     requestBody:
  *       required: true
  *       content:
@@ -124,7 +130,7 @@ router.put('/:id', materiaController.updateMateria);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID de la materia a eliminar
+ *         description: ID de la materia
  *     responses:
  *       200:
  *         description: Materia eliminada exitosamente.
@@ -134,3 +140,5 @@ router.put('/:id', materiaController.updateMateria);
  *         description: Error interno del servidor.
  */
 router.delete('/:id', materiaController.deleteMateria);
+
+module.exports = router;
